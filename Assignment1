@@ -1,0 +1,233 @@
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
+
+public class AutomationDriver {
+
+	public static void main(String[] args) throws InterruptedException {
+		// TODO Auto-generated method stub
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\prasa\\Downloads\\chromedriver_win32\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+		exerciseOne(driver);
+		exerciseTwo(driver);
+		exerciseThree(driver);
+		exerciseFour(driver);
+		exerciseFourPointOne(driver);
+		exerciseFourPointTwo(driver);
+		exerciseFive(driver);
+		exerciseSix(driver);
+		exerciseSeven(driver);
+		exerciseEight(driver);
+		exerciseNine(driver);
+	}
+	public static void exerciseOne(WebDriver driver) {
+		//selecting radio1
+		driver.findElement(By.xpath("//input[@value = 'radio1']")).click();
+		System.out.println(driver.findElement(By.xpath("//input[@value='radio1']")).isSelected());
+		
+		//selecting radio2
+		driver.findElement(By.xpath("//input[@value = 'radio2']")).click();
+		System.out.println(driver.findElement(By.xpath("//input[@value='radio2']")).isSelected());
+		
+		//selecting radio3
+		driver.findElement(By.xpath("//input[@value = 'radio3']")).click();
+		System.out.println(driver.findElement(By.xpath("//input[@value='radio3']")).isSelected());
+	}
+	
+	public static void exerciseTwo(WebDriver driver) throws InterruptedException {
+	
+		driver.findElement(By.id("autocomplete")).sendKeys("United States");
+		Thread.sleep(3000);
+		//creating list of text present in ui-menu-items
+		List<WebElement> text = driver.findElements(By.cssSelector("li[class='ui-menu-item'] div"));
+		for(WebElement text1:text)
+		{	
+			//searching for text which we want to select
+			if(text1.getText().equals("United States Minor Outlying Islands"))
+			{
+				//if text found then clicking
+				text1.click();
+			}
+		}
+		
+	}
+	
+	public static void exerciseThree(WebDriver driver) {
+		//To select one option from fixed option we use "Select"
+		WebElement staticDropdown = driver.findElement(By.id("dropdown-class-example"));
+		Select dropdown = new Select(staticDropdown);
+		//selecting first option
+		dropdown.selectByIndex(1);
+		//printing option selected
+		System.out.println(dropdown.getFirstSelectedOption().getText());
+		
+		//selecting second option
+		dropdown.selectByIndex(2);
+		//printing option selected
+		System.out.println(dropdown.getFirstSelectedOption().getText());
+		
+		//selecting third option
+		dropdown.selectByIndex(3);
+		//printing option selected
+		System.out.println(dropdown.getFirstSelectedOption().getText());
+	}
+	
+	private static void exerciseFour(WebDriver driver) {
+
+		//clicking first check box
+		driver.findElement(By.id("checkBoxOption1")).click();
+		//checking if first checkbox selected or not
+		System.out.println(driver.findElement(By.id("checkBoxOption1")).isSelected());
+		//uncheck first check box
+		driver.findElement(By.id("checkBoxOption1")).click();
+		//checking if first checkbox selected or not
+		System.out.println(driver.findElement(By.id("checkBoxOption1")).isSelected());
+		
+		//clicking second check box
+		driver.findElement(By.id("checkBoxOption2")).click();
+		//checking if second checkbox selected or not
+		System.out.println(driver.findElement(By.id("checkBoxOption2")).isSelected());
+		//uncheck second check box
+		driver.findElement(By.id("checkBoxOption2")).click();
+		//checking if second checkbox selected or not
+		System.out.println(driver.findElement(By.id("checkBoxOption2")).isSelected());
+		
+		//clicking third check box
+		driver.findElement(By.id("checkBoxOption3")).click();
+		//checking if third checkbox selected or not
+		System.out.println(driver.findElement(By.id("checkBoxOption3")).isSelected());
+		//uncheck third check box
+		driver.findElement(By.id("checkBoxOption3")).click();
+		//checking if third checkbox selected or not
+		System.out.println(driver.findElement(By.id("checkBoxOption3")).isSelected());
+
+	}
+	
+	public static void exerciseFourPointOne(WebDriver driver) {
+		
+		//selecting all three checkbox
+		driver.findElement(By.id("checkBoxOption1")).click();
+		driver.findElement(By.id("checkBoxOption2")).click();
+		driver.findElement(By.id("checkBoxOption3")).click();
+		
+		//checking if all 3 checkbox selected or not
+		System.out.println(driver.findElement(By.id("checkBoxOption1")).isSelected());
+		System.out.println(driver.findElement(By.id("checkBoxOption2")).isSelected());
+		System.out.println(driver.findElement(By.id("checkBoxOption3")).isSelected());
+	}
+
+	public static void exerciseFourPointTwo(WebDriver driver) {
+		//clicking all 3 checkbox
+		driver.findElement(By.id("checkBoxOption1")).click();
+		driver.findElement(By.id("checkBoxOption2")).click();
+		driver.findElement(By.id("checkBoxOption3")).click();
+		//checking if all 3 are selected
+		System.out.println(driver.findElement(By.id("checkBoxOption1")).isSelected());
+		System.out.println(driver.findElement(By.id("checkBoxOption2")).isSelected());
+		System.out.println(driver.findElement(By.id("checkBoxOption3")).isSelected());
+		
+		//Uncheck all three checkbox
+		driver.findElement(By.id("checkBoxOption1")).click();
+		driver.findElement(By.id("checkBoxOption2")).click();
+		driver.findElement(By.id("checkBoxOption3")).click();
+		//checking if they ar selected or not
+		System.out.println(driver.findElement(By.id("checkBoxOption1")).isSelected());
+		System.out.println(driver.findElement(By.id("checkBoxOption2")).isSelected());
+		System.out.println(driver.findElement(By.id("checkBoxOption3")).isSelected());
+	}
+
+	public static void exerciseFive(WebDriver driver) {
+		
+		//clicking on openwindow button
+		driver.findElement(By.id("openwindow")).click();
+		//using windowhandler to access parent and child windows
+		Set<String> windows = driver.getWindowHandles();
+		Iterator<String>it = windows.iterator();
+		String parentID = it.next();
+		String childID = it.next();
+		//accessing child window
+		driver.switchTo().window(childID);
+		//getting url of child window
+		System.out.println(driver.getCurrentUrl());
+		//closing child window
+		driver.close();
+		driver.switchTo().window(parentID);
+		System.out.println(driver.getCurrentUrl());
+		
+	}
+
+	public static void exerciseSix(WebDriver driver) {
+		//clicking on open tab Button
+		driver.findElement(By.id("opentab")).click();
+		//using windoHandler to access child windows
+		Set<String> windows = driver.getWindowHandles();
+		Iterator<String>it = windows.iterator();
+		String parentID = it.next();
+		String childID = it.next();
+		//accessing child window
+		driver.switchTo().window(childID);
+		//getting URL of child window
+		System.out.println(driver.getCurrentUrl());
+		//closing only child window
+		driver.close();
+		//switching to parent window
+		driver.switchTo().window(parentID);
+		System.out.println(driver.getCurrentUrl());
+		
+	}
+
+	public static void exerciseSeven(WebDriver driver) {
+
+		//sending data to "name" textfield
+		driver.findElement(By.id("name")).sendKeys("Prasad");
+		driver.findElement(By.id("alertbtn")).click();
+		//printing msg shown 
+		System.out.println(driver.switchTo().alert().getText());	
+		//checking if msg contains same name entered in textfield
+		System.out.println(driver.switchTo().alert().getText().contains("Prasad"));
+		//clicking OK button
+		driver.switchTo().alert().accept();	
+	}
+
+	public static void exerciseEight(WebDriver driver) {
+		
+		//Javascriptexecutor for scroll down the page
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0,600)");
+		
+		//Taking data from row
+		List<WebElement> rowData1 = driver.findElements(By.cssSelector(".table-display td:nth-child(1)"));
+		List<WebElement> rowData2 = driver.findElements(By.cssSelector(".table-display td:nth-child(2)"));
+		List<WebElement> rowData3 = driver.findElements(By.cssSelector(".table-display td:nth-child(3)"));
+		//checking if rows contain data or not
+		if(rowData1.contains("NULL") || (rowData2.contains("NULL")) || rowData3.contains("NULL"))
+		{
+			System.out.println("table doesn't contain contents");
+		}
+		else
+		{
+			System.out.println("Table contains content");
+		}
+	}
+
+	public static void exerciseNine(WebDriver driver) {
+		//We are using Javascript Executor for scroll down
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0,1200)");
+		
+		Actions a = new Actions(driver);
+		//action which we created is built and then performed
+		a.moveToElement(driver.findElement(By.id("mousehover"))).build().perform();
+		a.moveToElement(driver.findElement(By.tagName("a"))).click().build().perform();
+	}
+
+}
